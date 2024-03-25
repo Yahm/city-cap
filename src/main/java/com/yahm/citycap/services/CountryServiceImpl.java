@@ -4,8 +4,6 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.yahm.citycap.models.Country;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -45,7 +43,7 @@ public class CountryServiceImpl implements CountryService {
 
         String body = response.body();
 
-        this.countryList = objectMapper.readValue(body, new TypeReference<List<Country>>(){});
+        this.countryList = objectMapper.readValue(body, new TypeReference<>(){});
 
         log.debug("country list {}", this.countryList );
 
@@ -57,7 +55,7 @@ public class CountryServiceImpl implements CountryService {
     }
 
     @Override
-    public Country getCountryByName(String name) throws Exception {
-        return this.countryList.stream().filter(country -> country.getName().getCommon().equals(name)).findFirst().orElseThrow(() -> new Exception("Country not found - " + name));
+    public List<Country> getCountryByName(String name) {
+        return this.countryList.stream().filter(country -> country.getName().getCommon().toLowerCase().contains(name.toLowerCase())).toList();
     }
 }

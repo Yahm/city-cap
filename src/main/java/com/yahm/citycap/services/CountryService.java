@@ -6,5 +6,5 @@ import java.util.List;
 
 public interface CountryService {
     List<Country> getCountries();
-    Country getCountryByName(String name) throws Exception;
+    List<Country> getCountryByName(String name) throws Exception;
 }
